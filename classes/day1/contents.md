@@ -15,17 +15,20 @@
 - Detailed project on a particular Astronomy topic.
 
 ## Today's discussion
-- What does the course cover ? Extracting knowledge from data.
-    - multivariate statistics, fitting, regression and non-parametric methods
-    - data mining methods
-    - machine learning
-
 - Tools: python git datasets
     - python book (scipy, numpy, sklearn, astroML)
         - use pandas, astropy
         - seaborn, holoviews, 
         - use tensorflow Keras (image based studies) for NN based studies
+        - Maybe add to an environment before hands on sessions 
     - git
-        - Why ? version control basics ?
-        - use github with jupyter notebooks 
-        - CI tools
+        - Why ? version control basics ? Figures. Signup 
+        https://docs.google.com/document/d/1xWO3XWQ1cobIhJCLUPhO9fcbZUlTwCjGerEajIg-A38/edit
+        - use github with jupyter notebooks (problematic) 
+        - [starting guide](../../doc/useful_resources.md)
+
+
+- What does the course cover ? Extracting knowledge from data.
+    - multivariate statistics, fitting, regression and non-parametric methods
+    - data mining methods
+    - machine learning
