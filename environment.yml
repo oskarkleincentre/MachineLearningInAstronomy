@@ -1,0 +1,12 @@
+name: astroML
+channels:
+ - astropy
+
+dependencies:
+ - python>=3.4
+ - numpy
+ - matplotlib
+ - scipy
+ - scikit-learn
+ - jupyter
+ - astroML
