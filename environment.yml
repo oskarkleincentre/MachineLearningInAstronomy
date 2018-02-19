@@ -12,5 +12,6 @@ dependencies:
   - scipy=0.19.1
   - scikit-learn=0.19.0
   - jupyter=1.0.0
+  - pymc
   - pip:
     - astroML==0.3
