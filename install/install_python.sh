@@ -44,4 +44,8 @@ bash ${fname} -b -p ${miniconda_dir}
 printf "You can clean up by typing \n rm -f $fname\n"
 echo "In order to use this python, please set your path to include ${miniconda_dir}/bin, for example in bash:"
 echo "export PATH=${miniconda_dir}"'/bin:$PATH'
+echo "export PATH=${miniconda_dir}"'/bin:$PATH'>./install/setup.sh
+export PATH=${miniconda_dir}/bin:$PATH
+conda env create -n astroml --file environment.yml
+echo "source activate astroml">>./install/setup.sh
 

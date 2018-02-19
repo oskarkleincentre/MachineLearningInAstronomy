@@ -10,12 +10,23 @@ The defualt location is `${HOME}/astroml_miniconda3`, which is where it will be 
 ```
 bash ./install/install_python.sh
 ```
-Follow the instructions to remove the miniconda install script and then to use the path (you must do this everytime you want to start in a new shell or add it to your bash profile if you want to use this as a default)
-use the `export PATH` as suggested at the end of the script.
+Follow the instructions to remove the miniconda install script and then to use the path (you must do this everytime you want to start in a new shell to use this python (or use the setup script) or add it to your bash profile if you want to use this as a default).
+
+If you used this to install python, it will create `./install/setup.sh`, and every other time you want to use astroml, use
+```
+source ./install/setup.sh 
+```
+to use this python and use the astroml environment.
 
 ### Using the environment
-To install all the software required for the class:
+If you have not installed python as above and prefer to use your own python,  but would like to install the astroml environment:
 ```
 conda env create -n astroml --file environment.yml
 ``` 
 This should show the `solving environment` and then start installing the libraries.
+
+In order to use the `astroml` software, you will have to run 
+```
+source activate astroml
+```
+everytime to setup the environment.
