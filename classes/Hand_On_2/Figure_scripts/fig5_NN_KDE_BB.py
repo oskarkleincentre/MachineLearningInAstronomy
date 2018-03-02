@@ -1,4 +1,4 @@
-## Author: Jake VanderPlas
+# Author: Jake VanderPlas
 # License: BSD
 #   The figure produced by this code is published in the textbook
 #   "Statistics, Data Mining, and Machine Learning in Astronomy" (2013)
@@ -9,8 +9,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
 
+from astroML.density_estimation import KNeighborsDensity
 from astroML.plotting import hist
-from sklearn.mixture import GMM
 
 # Scikit-learn 0.14 added sklearn.neighbors.KernelDensity, which is a very
 # fast kernel density estimator based on a KD Tree.  We'll use this if
@@ -25,7 +25,6 @@ except:
                   "sklearn.neighbors.KernelDensity.", DeprecationWarning)
     from astroML.density_estimation import KDE
     use_sklearn_KDE = False
-
 
 #----------------------------------------------------------------------
 # This function adjusts matplotlib settings for a uniform feel in the textbook.
@@ -65,7 +64,7 @@ for N, k, subplot in zip(N_values, k_values, subplots):
     ax = fig.add_subplot(subplot)
     xN = x[:N]
     t = np.linspace(-10, 30, 1000)
-    
+
     # Compute density with KDE
     if use_sklearn_KDE:
         kde = KernelDensity(0.1, kernel='gaussian')
@@ -75,30 +74,21 @@ for N, k, subplot in zip(N_values, k_values, subplots):
         kde = KDE('gaussian', h=0.1).fit(xN[:, None])
         dens_kde = kde.eval(t[:, None]) / N
 
-    # Compute density via Gaussian Mixtures
-    # we'll try several numbers of clusters
-    
-    print(xN.shape)
-    xN=xN.reshape(-1, 1)
-    n_components = np.arange(3, 16)
-    gmms = [GMM(n_components=n).fit(xN) for n in n_components]
-    BICs = [gmm.bic(xN) for gmm in gmms]
-    i_min = np.argmin(BICs)
-    t = np.linspace(-10, 30, 1000)
-    t=t.reshape(-1, 1)
-    logprob, responsibilities = gmms[i_min+1].score_samples(t)
+    # Compute density with Bayesian nearest neighbors
+    nbrs = KNeighborsDensity('bayesian', n_neighbors=k).fit(xN[:, None])
+    dens_nbrs = nbrs.eval(t[:, None]) / N
 
     # plot the results
     ax.plot(t, true_pdf(t), ':', color='black', zorder=3,
             label="Generating Distribution")
-    ax.plot(xN, -0.005 * np.ones(len(xN)), '|k', lw=1.5)
-    #hist(xN, bins='blocks', ax=ax, normed=True, zorder=1,
-    #     histtype='stepfilled', lw=1.5, color='k', alpha=0.2,
-    #     label="Bayesian Blocks")
-    ax.plot(t, np.exp(logprob), '-', color='gray',
-            label="Mixture Model\n(%i components)" % n_components[i_min])
+    ax.plot(xN, -0.005 * np.ones(len(xN)), '|k')
+    hist(xN, bins='blocks', ax=ax, normed=True, zorder=1,
+         histtype='stepfilled', color='k', alpha=0.2,
+         label="Bayesian Blocks")
+    ax.plot(t, dens_nbrs, '-', lw=1.5, color='gray', zorder=2,
+            label="Nearest Neighbors (k=%i)" % k)
     ax.plot(t, dens_kde, '-', color='black', zorder=3,
-            label="Kernel Density $(h=0.1)$")
+            label="Kernel Density (h=0.1)")
 
     # label the plot
     ax.text(0.02, 0.95, "%i points" % N, ha='left', va='top',
