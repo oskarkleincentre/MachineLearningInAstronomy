@@ -22,7 +22,7 @@ are most likely to belong to class 1.
 #    https://groups.google.com/forum/#!forum/astroml-general
 from matplotlib import pyplot as plt
 import numpy as np
-from sklearn.mixture import GMM
+from sklearn.mixture import GaussianMixture as GMM
 
 #----------------------------------------------------------------------
 # This function adjusts matplotlib settings for a uniform feel in the textbook.
@@ -41,7 +41,7 @@ setup_text_plots(fontsize=8, usetex=True)
 #  and weights by-hand.
 np.random.seed(1)
 
-gmm = GMM(3, n_iter=1)
+gmm = GMM(3)#, n_iter=1)
 gmm.means_ = np.array([[-1], [0], [3]])
 gmm.covars_ = np.array([[1.5], [1], [0.5]]) ** 2
 gmm.weights_ = np.array([0.3, 0.5, 0.2])
